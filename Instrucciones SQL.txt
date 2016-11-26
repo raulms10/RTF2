@@ -1,4 +1,6 @@
 --Repositorio: https://github.com/raulms10/RTF2
+--Tutorial: https://netbeans.org/kb/docs/java/hibernate-java-se.html
+--Tutorial2: https://justonedeveloper.wordpress.com/2013/05/27/jsfejb-and-hibernate-integration-2
 
 --1
 create table "ROOT".INTEGRANTE
