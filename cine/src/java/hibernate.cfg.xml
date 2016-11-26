@@ -48,6 +48,30 @@ Contributor(s):
     <property name="hibernate.connection.password">root</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
+    <mapping resource="com/udea/dto/Formato.hbm.xml"/>
+    <mapping resource="com/udea/dto/Sala.hbm.xml"/>
+    <mapping resource="com/udea/dto/Integrantexelenco.hbm.xml"/>
+    <mapping resource="com/udea/dto/Idioma.hbm.xml"/>
+    <mapping resource="com/udea/dto/Formatoxpelicula.hbm.xml"/>
+    <mapping resource="com/udea/dto/Preferencial.hbm.xml"/>
+    <mapping resource="com/udea/dto/Director.hbm.xml"/>
+    <mapping resource="com/udea/dto/Ciudad.hbm.xml"/>
+    <mapping resource="com/udea/dto/Cartelera.hbm.xml"/>
+    <mapping resource="com/udea/dto/Integrante.hbm.xml"/>
+    <mapping resource="com/udea/dto/Clasificacion.hbm.xml"/>
+    <mapping resource="com/udea/dto/Boleto.hbm.xml"/>
+    <mapping resource="com/udea/dto/Imax.hbm.xml"/>
+    <mapping resource="com/udea/dto/Usuario.hbm.xml"/>
+    <mapping resource="com/udea/dto/Genero.hbm.xml"/>
+    <mapping resource="com/udea/dto/Tresd.hbm.xml"/>
+    <mapping resource="com/udea/dto/Reserva.hbm.xml"/>
+    <mapping resource="com/udea/dto/Elenco.hbm.xml"/>
+    <mapping resource="com/udea/dto/Sucursal.hbm.xml"/>
+    <mapping resource="com/udea/dto/Digital.hbm.xml"/>
+    <mapping resource="com/udea/dto/Asiento.hbm.xml"/>
+    <mapping resource="com/udea/dto/Funcion.hbm.xml"/>
+    <mapping resource="com/udea/dto/Actor.hbm.xml"/>
+    <mapping resource="com/udea/dto/General.hbm.xml"/>
     <mapping resource="com/udea/dto/Pelicula.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

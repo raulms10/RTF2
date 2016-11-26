@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/11/2016 02:55:03 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.udea.dto.Asiento" table="ASIENTO" schema="ROOT" optimistic-lock="version">
+        <id name="codigo" type="string">
+            <column name="CODIGO" length="15" />
+            <generator class="assigned" />
+        </id>
+        <property name="fila" type="string">
+            <column name="FILA" length="5" not-null="true" />
+        </property>
+        <property name="numerosilla" type="string">
+            <column name="NUMEROSILLA" length="5" not-null="true" />
+        </property>
+        <property name="salaFk" type="string">
+            <column name="SALA_FK" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

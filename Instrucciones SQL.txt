@@ -1,3 +1,5 @@
+--Repositorio: https://github.com/raulms10/RTF2
+
 --1
 create table "ROOT".INTEGRANTE
 (

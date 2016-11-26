@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/11/2016 02:55:03 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.udea.dto.Pelicula" table="PELICULA" schema="ROOT" optimistic-lock="version">
+        <id name="codigo" type="string">
+            <column name="CODIGO" length="15" />
+            <generator class="assigned" />
+        </id>
+        <property name="duracion" type="int">
+            <column name="DURACION" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="ESTADO" length="40" not-null="true" />
+        </property>
+        <property name="fechaestreno" type="date">
+            <column name="FECHAESTRENO" length="10" not-null="true" />
+        </property>
+        <property name="sinopsis" type="string">
+            <column name="SINOPSIS" length="500" not-null="true" />
+        </property>
+        <property name="titulo" type="string">
+            <column name="TITULO" length="100" not-null="true" />
+        </property>
+        <property name="clasificacionPk" type="string">
+            <column name="CLASIFICACION_PK" length="15" not-null="true" />
+        </property>
+        <property name="generoPk" type="string">
+            <column name="GENERO_PK" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

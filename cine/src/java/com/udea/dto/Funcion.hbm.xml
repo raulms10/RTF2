@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/11/2016 02:55:03 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.udea.dto.Funcion" table="FUNCION" schema="ROOT" optimistic-lock="version">
+        <id name="codigo" type="string">
+            <column name="CODIGO" length="15" />
+            <generator class="assigned" />
+        </id>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" not-null="true" />
+        </property>
+        <property name="horainicio" type="time">
+            <column name="HORAINICIO" length="8" not-null="true" />
+        </property>
+        <property name="horafin" type="time">
+            <column name="HORAFIN" length="8" not-null="true" />
+        </property>
+        <property name="precio" type="double">
+            <column name="PRECIO" precision="52" scale="0" not-null="true" />
+        </property>
+        <property name="carteleraPk" type="string">
+            <column name="CARTELERA_PK" length="15" not-null="true" />
+        </property>
+        <property name="formatoPk" type="string">
+            <column name="FORMATO_PK" length="15" not-null="true" />
+        </property>
+        <property name="salaFk" type="string">
+            <column name="SALA_FK" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
