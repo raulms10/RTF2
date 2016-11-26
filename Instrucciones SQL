@@ -1,0 +1,210 @@
+--1
+create table "ROOT".INTEGRANTE
+(
+	IDENTIFICACION VARCHAR(15) not null primary key,
+	NOMBRE VARCHAR(50) not null,
+	APELLIDOS VARCHAR(50) not null,
+	EDAD INTEGER not null
+)
+
+--2
+create table "ROOT".ACTOR
+(
+	INTEGRANTE_FK VARCHAR(15) not null primary key REFERENCES INTEGRANTE
+)
+
+--3
+create table "ROOT".DIRECTOR
+(
+	INTEGRANTE_FK VARCHAR(15) not null primary key REFERENCES INTEGRANTE
+)
+
+--4
+create table "ROOT".IDIOMA
+(
+	CODIGO VARCHAR(15) not null primary key,
+	NOMBRE VARCHAR(30) not null
+)
+
+--5
+create table "ROOT".USUARIO
+(
+	CODIGO VARCHAR(15) not null primary key,
+	NOMBRE VARCHAR(50) not null,
+	APELLIDOS VARCHAR(50) not null,
+	TIPODOCUMENTO VARCHAR(3) not null,
+	NUMERODOCUMENTO VARCHAR(15) not null,
+	CONTRASENIA VARCHAR(20) not null,
+	FECHANACIMIENTO DATE not null,
+	EMAIL VARCHAR(30) not null,
+	SEXO VARCHAR(1) not null
+)
+
+--6
+create table "ROOT".CIUDAD
+(
+	CODIGO VARCHAR(15) not null primary key,
+	NOMBRE VARCHAR(50) not null
+)
+
+--7
+create table "ROOT".SUCURSAL
+(
+	CODIGO VARCHAR(15) not null primary key,
+	NOMBRE VARCHAR(50) not null,
+	CIUDAD_FK VARCHAR(15) not null REFERENCES CIUDAD,
+	DIRECCION VARCHAR(20) not null,
+	TELEFONO VARCHAR(12) not null
+)
+
+--8
+create table "ROOT".SALA
+(
+	CODIGO VARCHAR(15) not null primary key,
+	NOMBRE VARCHAR(50) not null,
+	CAPACIDAD VARCHAR(30) not null,
+	SUCURSAL VARCHAR(15) not null REFERENCES SUCURSAL
+)
+
+--9
+create table "ROOT".DIGITAL
+(
+	SALA_FK VARCHAR(15) not null primary key REFERENCES SALA
+)
+
+--10
+create table "ROOT".TRESD
+(
+	SALA_FK VARCHAR(15) not null primary key REFERENCES SALA
+)
+
+--11
+create table "ROOT".IMAX
+(
+	SALA_FK VARCHAR(15) not null primary key REFERENCES SALA
+)
+
+--12
+create table "ROOT".ASIENTO
+(
+	CODIGO VARCHAR(15) not null primary key,
+	FILA VARCHAR(5) not null,
+	NUMEROSILLA VARCHAR(5) not null,
+	SALA_FK VARCHAR(15) not null REFERENCES SALA
+)
+
+--13
+create table "ROOT".PREFERENCIAL
+(
+	ASIENTO_FK VARCHAR(15) not null primary key REFERENCES ASIENTO
+)
+
+--14
+create table "ROOT".GENERAL
+(
+	ASIENTO_FK VARCHAR(15) not null primary key REFERENCES ASIENTO
+)
+
+--15
+create table "ROOT".FORMATO
+(
+	CODIGO VARCHAR(15) not null primary key,
+	DESCRIPCION VARCHAR(150) not null,
+	TIPO VARCHAR(50) not null,
+	IDIOMAAUDIO VARCHAR(15) not null REFERENCES IDIOMA,
+	IDIOMASUBTITULO VARCHAR(15) not null REFERENCES IDIOMA
+)
+--16
+create table "ROOT".CLASIFICACION
+(
+	CODIGO VARCHAR(15) not null primary key,
+	EDAD INTEGER not null
+)
+
+--17
+create table "ROOT".GENERO
+(
+	CODIGO VARCHAR(15) not null primary key,
+	NOMBRE VARCHAR(50) not null
+)
+
+--18
+create table "ROOT".PELICULA
+(
+	CODIGO VARCHAR(15) not null primary key,
+	DURACION INTEGER not null,
+	ESTADO VARCHAR(40) not null,
+	FECHAESTRENO DATE not null,
+	SINOPSIS VARCHAR(500) not null,
+	TITULO VARCHAR(100) not null,
+	CLASIFICACION_PK VARCHAR(15) not null REFERENCES CLASIFICACION,
+	GENERO_PK VARCHAR(15) not null REFERENCES GENERO
+)
+
+--19
+create table "ROOT".FORMATOXPELICULA
+(
+	PELICULA_FK VARCHAR(15) not null REFERENCES PELICULA,
+	FORMATO_FK VARCHAR(15) not null REFERENCES FORMATO,
+	primary key (PELICULA_FK, FORMATO_FK)
+)
+
+
+--20
+create table "ROOT".CARTELERA
+(
+	CODIGO VARCHAR(15) not null primary key,
+	FECHAESTRENO DATE not null,
+	FECHASALIDA DATE not null,
+	PELICULA_FK VARCHAR(15) not null REFERENCES PELICULA,
+	SUCURSAL_FK VARCHAR(15) not null REFERENCES SUCURSAL
+)
+
+--21
+create table "ROOT".FUNCION
+(
+	CODIGO VARCHAR(15) not null primary key,
+	FECHA DATE not null,
+	HORAINICIO TIME not null,
+	HORAFIN TIME not null,
+	PRECIO DOUBLE not null,
+	CARTELERA_PK VARCHAR(15) not null REFERENCES CARTELERA,
+	FORMATO_PK VARCHAR(15) not null REFERENCES FORMATO,
+	SALA_FK VARCHAR(15) not null REFERENCES SALA
+)
+
+--22
+create table "ROOT".BOLETO
+(
+	CODIGO VARCHAR(15) not null primary key,
+	ASIENTO_FK VARCHAR(15) not null REFERENCES BOLETO,
+	FUNCION_FK VARCHAR(15) not null REFERENCES FUNCION
+)
+
+--23
+create table "ROOT".RESERVA
+(
+	CODIGO VARCHAR(15) not null primary key,
+	BOLETO_FK VARCHAR(15) not null REFERENCES BOLETO,
+	ESATDO VARCHAR(50) not null,
+	FECHA DATE not null,
+	HORA TIME not null,
+	USUARIO_FK VARCHAR(15) not null REFERENCES USUARIO
+)
+
+--24
+create table "ROOT".ELENCO
+(
+	CODIGO VARCHAR(15) not null primary key,
+	PELICULA_FK VARCHAR(15) not null REFERENCES PELICULA
+)
+
+--25
+create table "ROOT".INTEGRANTEXELENCO
+(
+	ELENCO_FK VARCHAR(15) not null REFERENCES ELENCO,
+	INTEGRANTE_FK VARCHAR(15) not null REFERENCES INTEGRANTE,
+	primary key (ELENCO_FK, INTEGRANTE_FK)
+)
+
+
