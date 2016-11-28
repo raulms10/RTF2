@@ -5,11 +5,14 @@
  */
 package com.udea.controlador;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import com.udea.dao.CarteleraDAOImpl;
 import com.udea.dao.PeliculaDAOImpl;
+import com.udea.dao.ReservaDAOImpl;
 import com.udea.dao.UsuarioDAOImpl;
 import com.udea.dto.Cartelera;
 import com.udea.dto.Pelicula;
+import com.udea.dto.Reserva;
 import com.udea.dto.Usuario;
 import java.io.IOException;
 import java.util.Iterator;
@@ -26,6 +29,22 @@ import javax.servlet.http.HttpSession;
  */
 public class Controlador extends HttpServlet {
     String address = "";
+    public Integer param;
+    public String param2;
+    static Controlador myIntance;
+    
+    public static Controlador getInstance(){
+        if(myIntance == null){
+            return new Controlador();
+        }
+        return myIntance;
+    }
+
+    public Controlador() {
+    }
+    
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,7 +68,7 @@ public class Controlador extends HttpServlet {
  
 
         
-      }
+     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, boolean login)
             throws ServletException, IOException {
@@ -94,37 +113,41 @@ public class Controlador extends HttpServlet {
                     }
                 }
                 break;
+            case "/cerrar":
+                session.setAttribute("email", null);
+                address="/index";
+            break;
+            case "/reservas":
+                ReservaDAOImpl rDAOImpl = new ReservaDAOImpl();
+                List<Reserva> listReserva = rDAOImpl.getReservas();
+                request.setAttribute("reservas", listReserva);
+                address="/mostrarReserva";
+                break;
             case "/cine":
                 address="/index";
                 break;
             case "/index":
-                
                 break;
             case "/cartelera":
-                address="/ListaCartelera_1";
-                PeliculaDAOImpl pDAOImpl = new PeliculaDAOImpl();
-                List<Pelicula> listC = pDAOImpl.getPeliculas();
-                request.setAttribute("carteleras", listC);
-                /*CarteleraDAOImpl cDAOImpl = new CarteleraDAOImpl();
+                CarteleraDAOImpl cDAOImpl = new CarteleraDAOImpl();
                 List<Cartelera> listC = cDAOImpl.getCarteleras();
-                request.setAttribute("carteleras", listC);*/
-                
+                request.setAttribute("carteleras", listC);
+                address="/ListaCartelera";
                 break;
             case "/pelicula":
                 address="/consultaPelicula";
                 break;
             case "/peliculas":
-                pDAOImpl = new PeliculaDAOImpl();
+                PeliculaDAOImpl pDAOImpl = new PeliculaDAOImpl();
                 String ti = request.getParameter("tit");
                 String genero = request.getParameter("generoPk");
                 String clasif = request.getParameter("clasificacionPk");
-                List<String> listaPel = (List<String>)pDAOImpl.getPeliculas(ti, genero, clasif);
+                List<Pelicula> listaPel = (List<Pelicula>)pDAOImpl.getPeliculas(ti, genero, clasif);
                 
                 request.setAttribute("peliculas", listaPel);
-                request.setAttribute("clasif", clasif);
-                request.setAttribute("genero", genero);
-                
-                              
+                request.setAttribute("clasif", param);
+                request.setAttribute("genero", param2);
+                      
                 address="/mostrarPelicula";
                 break;
             default:

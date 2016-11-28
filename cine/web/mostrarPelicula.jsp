@@ -31,8 +31,7 @@
                         <td> ${item.titulo} </td>
                         <td> ${item.fechaestreno} </td>
                         <td> ${item.sinopsis} </td>
-                        <td> ${item.estado} </td>
- 
+                        <td> ${item.estado} </td>>
                     </tr>
                    
                     <c:set var="contador" value="${contador+1}" />

@@ -25,7 +25,7 @@
         <div class="container well">
             <h1>Iniciar Sesión</h1>
 
-            <form action="/cine/login" method="POST">
+            <form action="/cine/peliculas" method="POST">
                 <table>
                     <tr>
                         <th>Email: </th>

@@ -5,6 +5,9 @@
  */
 package com.udea.dao;
 
+import com.udea.controlador.Controlador;
+import com.udea.dto.Clasificacion;
+import com.udea.dto.Genero;
 import com.udea.dto.Pelicula;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -24,35 +27,51 @@ public class PeliculaDAOImpl implements PeliculaDAO{
     }
 
     @Override
-    public List<String> getPeliculas(String t, String g, String c) {
-        List<String> peliculaList = null;
+    public List<Pelicula> getPeliculas(String t, String g, String c) {
+        List<Pelicula> peliculaList = null;
 
         if(!session.isOpen())
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
-          //FROM Usuario u inner join u.permisos as p WITH p.estatus = 1
-            String tablas= "from Pelicula p";
+            Controlador contr;
+          //FROM Usuario u inner join u.permisos as p WITH p.estatus = 1 
             String cond=" where p.codigo=p.codigo";
-            //String strQuery =  "Clasificacion c, Genero g where p.generoPk = g.codigo and p.clasificacionPk=c.codigo";
             if(t!=null && !t.isEmpty()){
-                cond+=" and p.titulo = '"+t+"'";
-                //cond+="where p.generoPk = g.codigo";
+                cond+=" and p.titulo='"+t+"'";
             }
-            /*if(g!=null && !g.isEmpty()){
-                tablas+=", Genero g";
-                cond+=" and p.generoPk = g.codigo";
-                cond+=" and g.nombre = '"+g+"'";
-            }
-            if(c!=null && !c.isEmpty()){
-                tablas+=", Clasificacion c";
-                cond+=" and p.clasificacionPk=c.codigo";
-                cond+=" and c.edad >="+c;
-            }*/
             
+         
+                
+                if(g!=null && !g.isEmpty()){
+                    Query qG = session.createQuery ("from Genero g where g.nombre='"+g+"'");
+                    Genero genero = (Genero) qG.uniqueResult();
+                    if(genero!=null){ 
+                        contr = Controlador.getInstance();
+                        contr.param2 = genero.getNombre();   
+                        cond+=" and p.generoPk='"+genero.getCodigo()+"'";                    
+                    }
+            }
+            
+            
+            
+                
+                if(c!=null && !c.isEmpty()){
+                    Query qC = session.createQuery ("from Clasificacion c where c.edad>="+c);
+                    List<Clasificacion> cla = qC.list();
+                    if(cla.size()>0){
+                        contr = Controlador.getInstance();
+                        contr.param = cla.get(0).getEdad();
+                        cond+=" and p.clasificacionPk='"+cla.get(0).getCodigo()+"'";
+                    }
+                }
+            
+            
+            String tablas= "from Pelicula p";
+           
             Query q = session.createQuery (tablas+cond);
             
-            peliculaList = (List<String>) q.list();
+            peliculaList = (List<Pelicula>) q.list();
             
             System.out.println("Consulta: "+tablas+cond + " "+peliculaList.size());
             tx.commit();

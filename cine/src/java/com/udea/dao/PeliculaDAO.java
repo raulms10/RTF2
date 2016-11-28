@@ -16,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface PeliculaDAO {
     
-    List<String> getPeliculas(String t,String g, String c);
+    List<Pelicula> getPeliculas(String t,String g, String c);
     
     Pelicula getPelicula(String cod);
     
