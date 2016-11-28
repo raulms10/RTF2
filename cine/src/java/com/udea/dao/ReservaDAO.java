@@ -20,4 +20,8 @@ public interface ReservaDAO {
     
     Reserva getReserva(String cod);
     
+    boolean setReserva(String cod, String boleto, String fecha, String hora);
+    
+    boolean deleteReserva(String cod);
+    
 }

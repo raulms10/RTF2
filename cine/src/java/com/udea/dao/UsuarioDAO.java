@@ -15,6 +15,8 @@ import javax.ejb.Local;
 @Local
 public interface UsuarioDAO {
     
-    Usuario getUsuarioByID(Integer userId);
+    Usuario getUsuarioByID(String userId);
+    
+    Usuario getUsuario(String nro, String pass);
     
 }

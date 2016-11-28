@@ -6,6 +6,7 @@
 package com.udea.dao;
 
 import com.udea.dto.Usuario;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,16 +16,49 @@ import org.hibernate.Transaction;
  * @author estudiantelis
  */
 public class UsuarioDAOImpl implements UsuarioDAO{
+    Session session = null;
+
+    public UsuarioDAOImpl() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+    
+    @Override
+    public Usuario getUsuarioByID(String cod) {
+        Usuario u=null;
+
+        if(!session.isOpen())
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query q = session.createQuery ("from Usuario u where u.codigo="+cod);
+            u = (Usuario) q.uniqueResult();
+            tx.commit();
+        }
+        catch (HibernateException ex) {
+            System.out.println("Error UsuarioDAOImpl, getUsuarioById: "+ex.getMessage());
+            tx.rollback();
+            ex.printStackTrace();
+        }
+        return u;
+    }
 
     @Override
-    public Usuario getUsuarioByID(Integer userId) {
-        Session session = NewHibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction transaction = session.beginTransaction();
-        String queryString="from "+Usuario.class.getName()+"u where u.userId=:id";
-        Query query=session.createQuery(queryString);
-        query.setParameter("id",userId);
-        Usuario u = (Usuario)query.list().get(0);
-        transaction.commit();
+    public Usuario getUsuario(String nro, String pass) {
+        Usuario u=null;
+
+        if(!session.isOpen())
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query q = session.createQuery ("from Usuario u where u.numerodocumento="+nro+" and u.contrasenia="+pass);
+            u = (Usuario) q.uniqueResult();
+            tx.commit();
+        }
+        catch (HibernateException ex) {
+            System.out.println("Error UsuarioDAOImpl, getUsuario(): "+ex.getMessage());
+            tx.rollback();
+            ex.printStackTrace();
+        }
         return u;
     }
     
