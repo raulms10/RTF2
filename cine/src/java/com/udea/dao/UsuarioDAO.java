@@ -17,6 +17,6 @@ public interface UsuarioDAO {
     
     Usuario getUsuarioByID(String userId);
     
-    Usuario getUsuario(String nro, String pass);
+    Usuario getUsuario(String email, String pass);
     
 }

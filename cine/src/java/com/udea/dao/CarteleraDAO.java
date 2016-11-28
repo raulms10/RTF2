@@ -16,6 +16,6 @@ import javax.ejb.Local;
 @Local
 public interface CarteleraDAO {
     
-    List<Cartelera> getCartelras();
+    List<Cartelera> getCarteleras();
     
 }

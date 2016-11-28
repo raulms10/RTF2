@@ -24,4 +24,6 @@ public interface ReservaDAO {
     
     boolean deleteReserva(String cod);
     
+    boolean insertReserva(String codBol, String estado, String fecha, String hora, String user);
+    
 }

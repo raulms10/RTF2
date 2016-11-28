@@ -24,7 +24,7 @@ public class CarteleraDAOImpl implements CarteleraDAO{
     }
     
     @Override
-    public List<Cartelera> getCartelras() {
+    public List<Cartelera> getCarteleras() {
         List<Cartelera> carteleraList = null;
 
         if(!session.isOpen())

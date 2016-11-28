@@ -18,12 +18,11 @@
             <h1>${ey}</h1>
         </c:if>
         
-        <h1>Agenda</h1>
-        
         <h1>${ey}</h1>
         <ul type="square">
-            <li><a href="cartelera">Lista de Cartelera</a></li>
-            <li><a href="">Iniciar Seisón</a></li>
+            <li><a href="/cine/cartelera">Lista de Cartelera</a></li>
+            <li><a href="/cine/login">Iniciar Sesión</a></li>
+            <li><a href="/cine/pelicula">Lista Pelicula</a></li>
         </ul>
     </body>
 </html>

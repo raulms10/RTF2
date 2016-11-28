@@ -43,14 +43,14 @@ public class UsuarioDAOImpl implements UsuarioDAO{
     }
 
     @Override
-    public Usuario getUsuario(String nro, String pass) {
+    public Usuario getUsuario(String email, String pass) {
         Usuario u=null;
 
         if(!session.isOpen())
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query q = session.createQuery ("from Usuario u where u.numerodocumento="+nro+" and u.contrasenia="+pass);
+            Query q = session.createQuery ("from Usuario u where u.email='"+email+"' and u.contrasenia='"+pass+"'");
             u = (Usuario) q.uniqueResult();
             tx.commit();
         }

@@ -6,11 +6,14 @@
 package com.udea.controlador;
 
 import com.udea.dao.CarteleraDAOImpl;
+import com.udea.dao.PeliculaDAOImpl;
+import com.udea.dao.UsuarioDAOImpl;
 import com.udea.dto.Cartelera;
+import com.udea.dto.Pelicula;
+import com.udea.dto.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +38,7 @@ public class Controlador extends HttpServlet {
     
     private void doAction(HttpServletRequest request, boolean guardar)
     {
-        HttpSession session = request.getSession(true);
+        
         
         System.out.println("ContextPath: "+request.getContextPath());
         System.out.println("Local Addr: "+request.getLocalAddr());
@@ -48,15 +51,16 @@ public class Controlador extends HttpServlet {
         
       }
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response, boolean login)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
         
         response.setContentType("text/html;charset=UTF-8");
         address = request.getRequestURI().replaceFirst("/cine", "");
         if (address.startsWith("/")){
             address.replaceFirst("/", "");
         }else{
-            address="/"+address;
+            address="/cine"+address;
         }
         
         System.out.println("Addres: "+address);
@@ -65,15 +69,63 @@ public class Controlador extends HttpServlet {
             case "/":
                 address="/index";
                 break;
+            case "/login":
+                String email = "";
+                String pass = "";
+                if(login){
+                    UsuarioDAOImpl uDAOImpl = new UsuarioDAOImpl();
+                    email = request.getParameter("email");
+                    pass = request.getParameter("contrasenia");
+                    System.out.println(email+ "p: "+pass);
+                    Usuario u =uDAOImpl.getUsuario(email, pass);
+                    if (u != null) {
+                        address="/index";
+                        session.setAttribute("email", email);
+                        session.setAttribute("codigo", u.getCodigo());
+                    }else{
+                        request.setAttribute("error", "El Usuario no existe, verifique");
+                    }
+                }else{
+                    email = (String) session.getAttribute("email");
+                    if (email != null) {
+                        address="/index";
+                    }else{
+                        address="/login";
+                    }
+                }
+                break;
+            case "/cine":
+                address="/index";
+                break;
             case "/index":
+                
                 break;
             case "/cartelera":
-                address="/ListaCartelera";
-                CarteleraDAOImpl cDAOImpl = new CarteleraDAOImpl();
-                List<Cartelera> listC = cDAOImpl.getCartelras();
+                address="/ListaCartelera_1";
+                PeliculaDAOImpl pDAOImpl = new PeliculaDAOImpl();
+                List<Pelicula> listC = pDAOImpl.getPeliculas();
                 request.setAttribute("carteleras", listC);
+                /*CarteleraDAOImpl cDAOImpl = new CarteleraDAOImpl();
+                List<Cartelera> listC = cDAOImpl.getCarteleras();
+                request.setAttribute("carteleras", listC);*/
+                
                 break;
             case "/pelicula":
+                address="/consultaPelicula";
+                break;
+            case "/peliculas":
+                pDAOImpl = new PeliculaDAOImpl();
+                String ti = request.getParameter("tit");
+                String genero = request.getParameter("generoPk");
+                String clasif = request.getParameter("clasificacionPk");
+                List<String> listaPel = (List<String>)pDAOImpl.getPeliculas(ti, genero, clasif);
+                
+                request.setAttribute("peliculas", listaPel);
+                request.setAttribute("clasif", clasif);
+                request.setAttribute("genero", genero);
+                
+                              
+                address="/mostrarPelicula";
                 break;
             default:
                 address="/error";
@@ -99,7 +151,7 @@ public class Controlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(request, response, false);
     }
 
     /**
@@ -113,7 +165,7 @@ public class Controlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(request, response, true);
     }
 
     /**
