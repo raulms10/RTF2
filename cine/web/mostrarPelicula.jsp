@@ -22,7 +22,7 @@
                 <th>Fecha Estreno</th>
                 <th>Sinopsis</th>
                 <th>Estado</th>
-            </tr>
+            </tr>+
                 <c:set var="contador" value="1" scope="page"/>
                 <c:forEach var="item" items="${peliculas}">
                     
